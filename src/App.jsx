@@ -3,6 +3,7 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import NoteForm from "./components/NoteForm";
 import EmptyState from "./components/EmptyState";
 import NoteCard from "./components/NoteCard";
+import { loadCategories, loadNotes, saveCategories, saveNotes } from "./utils/localStorage";
 
 const DEFAULT_CATEGORIES = [
   {
@@ -65,6 +66,26 @@ function App() {
     setNoteToDelete(noteId);
     //откроется диалог подвеждения
   }
+
+  useEffect(() => {
+    function loadNotesAndCategories() {
+      const loadedNotes = loadNotes();
+      if (loadedNotes) setNotes(loadedNotes);
+
+      const loadedCategories = loadCategories();
+      if (loadedCategories) setCategories(loadedCategories);
+      else setCategories(DEFAULT_CATEGORIES);
+    }
+    loadNotesAndCategories();
+  }, []);
+
+  useEffect(() => {
+    if (notes.length > 0) saveNotes(notes);
+  }, [notes]);
+
+  useEffect(() => {
+    if (categories.length > 0) saveCategories(categories);
+  }, [categories]);
 
   return (
     <div className="app">
