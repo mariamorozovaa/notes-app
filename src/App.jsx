@@ -39,8 +39,6 @@ function App() {
   const [editingNote, setEditingNote] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteToDelete, setNoteToDelete] = useState(null);
-
-  return <NoteForm />;
 }
 
 export default App;

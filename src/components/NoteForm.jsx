@@ -7,7 +7,7 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
     categoryId: categories[0]?.id || null,
   });
 
-  const [isPinned, setIsPinned] = useState(false);
+  // const [isPinned, setIsPinned] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -79,7 +79,13 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
             autoFocus
           />
           <label htmlFor="content">Описание:</label>
-          <textarea name="content" id="content" rows="8" value={formData.content} onChange={handleChange} placeholder></textarea>
+          <textarea
+            name="content"
+            id="content"
+            rows="8"
+            value={formData.content}
+            onChange={handleChange}
+            placeholder="Введите текст"></textarea>
           <label htmlFor="categoryId"></label>
           <select name="categoryId" id="categoryId" value={formData.categoryId} onChange={handleChange}>
             {categories.map((category) => (
@@ -91,9 +97,7 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
           <button type="button" onClick={onClose}>
             Отмена
           </button>
-          <button type="submit" onClick={onClose}>
-            {editingNote ? "Сохранить" : "Создать"}
-          </button>
+          <button type="submit">{editingNote ? "Сохранить" : "Создать"}</button>
         </form>
       </div>
     </div>
