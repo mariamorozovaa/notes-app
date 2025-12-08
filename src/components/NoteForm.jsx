@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 
 export default function NoteForm({ categories, editingNote, onAddNote, onUpdateNote, onClose }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [categoryId, setCategoryId] = useState(categories[0].id);
-  // const [isPinned, setIsPinned] = useState(false)
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    categoryId: categories[0]?.id || null,
+  });
+
+  const [isPinned, setIsPinned] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     function editData() {
       if (editingNote) {
-        setTitle(editingNote.title);
-        setContent(editingNote.content);
-        setCategoryId(editingNote.categoryId);
         setFormData({
           title: editingNote.title,
           content: editingNote.content,
@@ -26,19 +25,77 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
   }, [editingNote]);
 
   function handleChange(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    setFormData(...formData, name, value);
+    const { name, value } = event.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!title.trim()) {
+    if (!formData.title.trim()) {
       setError("Пустой заголовок");
       return;
-    } else if (!content.trim()) {
-      setError("Пустой контент");
+    } else if (!formData.content.trim()) {
+      setError("Пустое описание");
       return;
     }
+    if (editingNote) {
+      const updatedNote = {
+        ...editingNote,
+        ...formData,
+      };
+      onUpdateNote(updatedNote);
+    } else {
+      const newNote = {
+        id: Date.now().toString(),
+        ...formData,
+        isPinned: false,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      };
+      onAddNote(newNote);
+    }
+    onClose();
   }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        {editingNote ? <h1>Редактировать заметку</h1> : <h1>Новая заметка</h1>}
+        <button onClick={onClose}>x</button>
+        <form onSubmit={handleSubmit}>
+          {error ? <p>{error}</p> : ""}
+          <label htmlFor="title">Заголовок:</label>
+          <input
+            type="text"
+            id="title"
+            name="title"
+            value={formData.title}
+            onChange={handleChange}
+            placeholder="Введите заголовок"
+            autoFocus
+          />
+          <label htmlFor="content">Описание:</label>
+          <textarea name="content" id="content" rows="8" value={formData.content} onChange={handleChange} placeholder></textarea>
+          <label htmlFor="categoryId"></label>
+          <select name="categoryId" id="categoryId" value={formData.categoryId} onChange={handleChange}>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
+          <button type="button" onClick={onClose}>
+            Отмена
+          </button>
+          <button type="submit" onClick={onClose}>
+            {editingNote ? "Сохранить" : "Создать"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 }
