@@ -1,3 +1,10 @@
-export default function EmptyState() {
-  return <p>Нет заметок. Создайте первую!</p>;
+import "../styles/EmptyState.css";
+
+export default function EmptyState({ message, icon }) {
+  return (
+    <div className="empty-state">
+      {icon ? <p className="icon">{icon}</p> : ""}
+      <p>{message}</p>
+    </div>
+  );
 }

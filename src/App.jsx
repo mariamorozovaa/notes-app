@@ -108,7 +108,7 @@ function App() {
         ""
       )}
       {notes.length === 0 ? (
-        <EmptyState />
+        <EmptyState icon="📝" message="Нет заметок. Создайте первую!" />
       ) : (
         <div className="notes-grid">
           {notes.map((note) => (
