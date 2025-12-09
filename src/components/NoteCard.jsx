@@ -8,7 +8,7 @@ export default function NoteCard({ note, category, onNoteClick, onEdit, onDelete
   }
 
   function formatDate() {
-    return new Date(note.updatedAt).toLocaleDateString("ru-RU");
+    return new Date(note.createdAt).toLocaleDateString("ru-RU");
   }
 
   return (

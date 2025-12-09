@@ -4,6 +4,8 @@ import NoteForm from "./components/NoteForm";
 import EmptyState from "./components/EmptyState";
 import NoteCard from "./components/NoteCard";
 import { loadCategories, loadNotes, saveCategories, saveNotes } from "./utils/localStorage";
+import NoteModal from "./components/NoteModal";
+import ConfirmDialog from "./components/ConfirmDialog";
 
 const DEFAULT_CATEGORIES = [
   {
@@ -64,7 +66,11 @@ function App() {
 
   function handleDeleteNote(noteId) {
     setNoteToDelete(noteId);
-    //откроется диалог подвеждения
+  }
+
+  function handleDeleteConfirm() {
+    setNotes((prev) => prev.filter((note) => note.id !== noteToDelete));
+    setNoteToDelete(null);
   }
 
   useEffect(() => {
@@ -122,6 +128,25 @@ function App() {
             />
           ))}
         </div>
+      )}
+
+      {selectedNote && (
+        <NoteModal
+          note={selectedNote}
+          category={categories.find((c) => c.id === selectedNote.categoryId)}
+          onClose={() => setSelectedNote(null)}
+          onEdit={handleEditNote}
+          onDelete={() => handleDeleteNote(selectedNote.id)}
+        />
+      )}
+
+      {noteToDelete && (
+        <ConfirmDialog
+          title="Удалить заметку?"
+          message="Это действие нельзя отменить"
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setNoteToDelete(null)}
+        />
       )}
     </div>
   );
