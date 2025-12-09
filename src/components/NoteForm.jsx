@@ -5,9 +5,9 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
     title: "",
     content: "",
     categoryId: categories[0]?.id || null,
+    isPinned: false,
   });
 
-  // const [isPinned, setIsPinned] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -17,6 +17,7 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
           title: editingNote.title,
           content: editingNote.content,
           categoryId: editingNote.categoryId,
+          isPinned: editingNote.isPinned,
         });
       }
     }
@@ -52,7 +53,6 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
       const newNote = {
         id: Date.now().toString(),
         ...formData,
-        isPinned: false,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
       };
@@ -86,7 +86,7 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
             value={formData.content}
             onChange={handleChange}
             placeholder="Введите текст"></textarea>
-          <label htmlFor="categoryId"></label>
+          <label htmlFor="categoryId">Категория:</label>
           <select name="categoryId" id="categoryId" value={formData.categoryId} onChange={handleChange}>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
@@ -94,6 +94,14 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
               </option>
             ))}
           </select>
+          <label htmlFor="isPinned">Закрепить заметку</label>
+          <input
+            type="checkbox"
+            id="isPinned"
+            name="isPinned"
+            checked={formData.isPinned}
+            onChange={(e) => setFormData((prev) => ({ ...prev, isPinned: e.target.checked }))} //ошибка
+          />
           <button type="button" onClick={onClose}>
             Отмена
           </button>

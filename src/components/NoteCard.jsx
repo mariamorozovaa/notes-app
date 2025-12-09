@@ -18,6 +18,15 @@ export default function NoteCard({ note, category, onNoteClick, onEdit, onDelete
         <span className="category-badge" style={{ backgroundColor: category?.color }}>
           {category?.name}
         </span>
+        {note.isPinned && <span>📌</span>}
+        <button
+          className="pinNote"
+          onClick={(e) => {
+            e.stopPropagation();
+            onTogglePin(note.id);
+          }}>
+          {note.isPinned ? "Открепить" : "Закрепить"}
+        </button>
       </div>
       <p className="note-preview">{preview}</p>
       <div className="note-footer">

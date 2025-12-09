@@ -73,6 +73,12 @@ function App() {
     setNoteToDelete(null);
   }
 
+  function handleTogglePin(noteId) {
+    setNotes((prev) =>
+      prev.map((note) => (note.id === noteId ? { ...note, isPinned: !note.isPinned, updatedAt: new Date().toISOString() } : note))
+    );
+  }
+
   useEffect(() => {
     function loadNotesAndCategories() {
       const loadedNotes = loadNotes();
@@ -125,6 +131,7 @@ function App() {
               onNoteClick={() => setSelectedNote(note)}
               onEdit={() => handleEditNote(note)}
               onDelete={() => handleDeleteNote(note.id)}
+              onTogglePin={handleTogglePin}
             />
           ))}
         </div>
