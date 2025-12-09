@@ -99,6 +99,15 @@ function App() {
     if (categories.length > 0) saveCategories(categories);
   }, [categories]);
 
+  const sortedNotes = useMemo(() => {
+    return [...notes].sort((a, b) => {
+      if (a.isPinned && !b.isPinned) return -1;
+      if (!a.isPinned && b.isPinned) return 1;
+
+      return new Date(b.updatedAt) - new Date(a.updatedAt);
+    });
+  }, [notes]);
+
   return (
     <div className="app">
       <div className="header">
@@ -123,7 +132,7 @@ function App() {
         <EmptyState icon="📝" message="Нет заметок. Создайте первую!" />
       ) : (
         <div className="notes-grid">
-          {notes.map((note) => (
+          {sortedNotes.map((note) => (
             <NoteCard
               key={note.id}
               note={note}
