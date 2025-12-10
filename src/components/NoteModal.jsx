@@ -6,6 +6,7 @@ export default function NoteModal({ note, category, onClose, onEdit, onDelete })
     hour: "2-digit",
     minute: "2-digit",
   });
+
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>

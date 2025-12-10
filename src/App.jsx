@@ -6,6 +6,7 @@ import NoteCard from "./components/NoteCard";
 import { loadCategories, loadNotes, saveCategories, saveNotes } from "./utils/localStorage";
 import NoteModal from "./components/NoteModal";
 import ConfirmDialog from "./components/ConfirmDialog";
+import CategoryFilter from "./components/CategoryFilter";
 
 const DEFAULT_CATEGORIES = [
   {
@@ -38,12 +39,12 @@ const DEFAULT_CATEGORIES = [
 function App() {
   const [notes, setNotes] = useState([]);
   const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
   const [noteToDelete, setNoteToDelete] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
 
   function handleAddNote(newNote) {
     setNotes((prevNotes) => [newNote, ...prevNotes]);
@@ -108,12 +109,18 @@ function App() {
     });
   }, [notes]);
 
+  const filteredNotes = useMemo(() => {
+    let result = sortedNotes;
+    if (selectedCategory !== "all") result = result.filter((note) => note.categoryId === selectedCategory);
+    return result;
+  }, [sortedNotes, selectedCategory]);
+
   return (
     <div className="app">
-      <div className="header">
+      <header>
         <h1>Notes App</h1>
         <button onClick={() => setIsFormOpen(true)}>Новая заметка</button>
-      </div>
+      </header>
       {isFormOpen ? (
         <NoteForm
           categories={categories}
@@ -132,7 +139,7 @@ function App() {
         <EmptyState icon="📝" message="Нет заметок. Создайте первую!" />
       ) : (
         <div className="notes-grid">
-          {sortedNotes.map((note) => (
+          {filteredNotes.map((note) => (
             <NoteCard
               key={note.id}
               note={note}
@@ -145,6 +152,13 @@ function App() {
           ))}
         </div>
       )}
+
+      <CategoryFilter
+        categories={categories}
+        notes={notes}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
 
       {selectedNote && (
         <NoteModal

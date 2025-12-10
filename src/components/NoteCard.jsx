@@ -1,14 +1,11 @@
 export default function NoteCard({ note, category, onNoteClick, onEdit, onDelete, onTogglePin }) {
   let preview = "";
 
-  if (note.content.length > 100) {
-    preview = note.content.slice(0, 100) + "...";
-  } else {
-    preview = note.content;
-  }
+  if (note.content.length > 100) preview = note.content.slice(0, 100) + "...";
+  else preview = note.content;
 
   function formatDate() {
-    return new Date(note.createdAt).toLocaleDateString("ru-RU");
+    return new Date(note.updatedAt).toLocaleDateString("ru-RU");
   }
 
   return (

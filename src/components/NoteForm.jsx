@@ -100,7 +100,7 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
             id="isPinned"
             name="isPinned"
             checked={formData.isPinned}
-            onChange={(e) => setFormData((prev) => ({ ...prev, isPinned: e.target.checked }))} //ошибка
+            onChange={(e) => setFormData((prev) => ({ ...prev, isPinned: e.target.checked }))}
           />
           <button type="button" onClick={onClose}>
             Отмена
