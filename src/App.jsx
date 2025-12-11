@@ -9,6 +9,7 @@ import ConfirmDialog from "./components/ConfirmDialog";
 import CategoryFilter from "./components/CategoryFilter";
 import CategoryManager from "./components/CategoryManager";
 import SearchBar from "./components/SearchBar";
+import Statistics from "./components/Statistics";
 
 const DEFAULT_CATEGORIES = [
   {
@@ -48,52 +49,52 @@ function App() {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
 
-  function handleAddNote(newNote) {
-    setNotes((prevNotes) => [newNote, ...prevNotes]);
+  const handleAddNote = useCallback((newNote) => {
+    setNotes((prev) => [newNote, ...prev]);
     setIsFormOpen(false);
-  }
+  }, []);
 
-  function handleUpdateNote(updatedNote) {
+  const handleUpdateNote = useCallback((updatedNote) => {
     setNotes((prev) =>
       prev.map((note) => (note.id === updatedNote.id ? { ...updatedNote, updatedAt: new Date().toISOString() } : note))
     );
 
     setIsFormOpen(false);
     setEditingNote(null);
-  }
+  }, []);
 
-  function handleEditNote(note) {
+  const handleEditNote = useCallback((note) => {
     setEditingNote(note);
     setIsFormOpen(true);
-  }
+  }, []);
 
-  function handleDeleteNote(noteId) {
+  const handleDeleteNote = useCallback((noteId) => {
     setNoteToDelete(noteId);
-  }
+  }, []);
 
-  function handleDeleteConfirm() {
+  const handleDeleteConfirm = useCallback(() => {
     setNotes((prev) => prev.filter((note) => note.id !== noteToDelete));
     setNoteToDelete(null);
-  }
+  }, [noteToDelete]);
 
-  function handleTogglePin(noteId) {
+  const handleTogglePin = useCallback((noteId) => {
     setNotes((prev) =>
       prev.map((note) => (note.id === noteId ? { ...note, isPinned: !note.isPinned, updatedAt: new Date().toISOString() } : note))
     );
-  }
+  }, []);
 
-  function handleAddCategory(newCategory) {
+  const handleAddCategory = useCallback((newCategory) => {
     setCategories((prev) => [...prev, newCategory]);
-  }
+  }, []);
 
-  function handleUpdateCategory(categoryId, updates) {
+  const handleUpdateCategory = useCallback((categoryId, updates) => {
     setCategories((prev) => prev.map((cat) => (cat.id === categoryId ? { ...cat, ...updates } : cat)));
-  }
+  }, []);
 
-  function handleDeleteCategory(categoryId) {
+  const handleDeleteCategory = useCallback((categoryId) => {
     setNotes((prev) => prev.map((note) => (note.categoryId === categoryId ? { ...note, categoryId: "other" } : note)));
     setCategories((prev) => prev.filter((category) => category.id !== categoryId));
-  }
+  }, []);
 
   useEffect(() => {
     function loadNotesAndCategories() {
@@ -180,9 +181,11 @@ function App() {
         </div>
       )}
 
+      <Statistics notes={notes} categories={categories} />
+
       <CategoryManager
         categories={categories}
-        notes={notes} //filteredNotes
+        notes={notes}
         onAddCategory={handleAddCategory}
         onUpdateCategory={handleUpdateCategory}
         onDeleteCategory={handleDeleteCategory}
