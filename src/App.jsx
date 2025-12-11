@@ -7,32 +7,33 @@ import { loadCategories, loadNotes, saveCategories, saveNotes } from "./utils/lo
 import NoteModal from "./components/NoteModal";
 import ConfirmDialog from "./components/ConfirmDialog";
 import CategoryFilter from "./components/CategoryFilter";
+import CategoryManager from "./components/CategoryManager";
 
 const DEFAULT_CATEGORIES = [
   {
     id: "work",
     name: "Работа",
-    color: "#3498db",
+    color: "#2979FF",
   },
   {
     id: "personal",
     name: "Личное",
-    color: "#1cbe7dff",
+    color: "#00E676",
   },
   {
     id: "ideas",
     name: "Идеи",
-    color: "#d89e1fff",
+    color: "#FF9100",
   },
   {
     id: "important",
     name: "Важное",
-    color: "#f33939ff",
+    color: "#FF1744",
   },
   {
-    id: "different",
-    name: "Разное",
-    color: "#6b7d89ff",
+    id: "other",
+    name: "Другое",
+    color: "#9E9E9E",
   },
 ];
 
@@ -78,6 +79,19 @@ function App() {
     setNotes((prev) =>
       prev.map((note) => (note.id === noteId ? { ...note, isPinned: !note.isPinned, updatedAt: new Date().toISOString() } : note))
     );
+  }
+
+  function handleAddCategory(newCategory) {
+    setCategories((prev) => [...prev, newCategory]);
+  }
+
+  function handleUpdateCategory(categoryId, updates) {
+    setCategories((prev) => prev.map((cat) => (cat.id === categoryId ? { ...cat, ...updates } : cat)));
+  }
+
+  function handleDeleteCategory(categoryId) {
+    setNotes((prev) => prev.map((note) => (note.categoryId === categoryId ? { ...note, categoryId: "other" } : note)));
+    setCategories((prev) => prev.filter((category) => category.id !== categoryId));
   }
 
   useEffect(() => {
@@ -135,6 +149,7 @@ function App() {
       ) : (
         ""
       )}
+
       {notes.length === 0 ? (
         <EmptyState icon="📝" message="Нет заметок. Создайте первую!" />
       ) : (
@@ -152,6 +167,14 @@ function App() {
           ))}
         </div>
       )}
+
+      <CategoryManager
+        categories={categories}
+        notes={notes} //filteredNotes
+        onAddCategory={handleAddCategory}
+        onUpdateCategory={handleUpdateCategory}
+        onDeleteCategory={handleDeleteCategory}
+      />
 
       <CategoryFilter
         categories={categories}
