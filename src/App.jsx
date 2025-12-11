@@ -8,6 +8,7 @@ import NoteModal from "./components/NoteModal";
 import ConfirmDialog from "./components/ConfirmDialog";
 import CategoryFilter from "./components/CategoryFilter";
 import CategoryManager from "./components/CategoryManager";
+import SearchBar from "./components/SearchBar";
 
 const DEFAULT_CATEGORIES = [
   {
@@ -123,11 +124,17 @@ function App() {
     });
   }, [notes]);
 
-  const filteredNotes = useMemo(() => {
+  const displayedNotes = useMemo(() => {
     let result = sortedNotes;
     if (selectedCategory !== "all") result = result.filter((note) => note.categoryId === selectedCategory);
+
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase();
+      result = result.filter((note) => note.title.toLowerCase().includes(query) || note.content.toLowerCase().includes(query));
+    }
+
     return result;
-  }, [sortedNotes, selectedCategory]);
+  }, [sortedNotes, selectedCategory, searchQuery]);
 
   return (
     <div className="app">
@@ -135,6 +142,9 @@ function App() {
         <h1>Notes App</h1>
         <button onClick={() => setIsFormOpen(true)}>Новая заметка</button>
       </header>
+      <SearchBar onSearch={setSearchQuery} />
+      {/* вопрос */}
+
       {isFormOpen ? (
         <NoteForm
           categories={categories}
@@ -152,9 +162,11 @@ function App() {
 
       {notes.length === 0 ? (
         <EmptyState icon="📝" message="Нет заметок. Создайте первую!" />
+      ) : displayedNotes.length === 0 && searchQuery ? (
+        <EmptyState message={`Ничего не найдено по запросу "${searchQuery}"`} />
       ) : (
         <div className="notes-grid">
-          {filteredNotes.map((note) => (
+          {displayedNotes.map((note) => (
             <NoteCard
               key={note.id}
               note={note}
