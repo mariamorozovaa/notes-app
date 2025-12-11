@@ -1,4 +1,6 @@
-export default function NoteCard({ note, category, onNoteClick, onEdit, onDelete, onTogglePin }) {
+import { memo } from "react";
+
+const NoteCard = memo(function NoteCard({ note, category, onNoteClick, onEdit, onDelete, onTogglePin }) {
   let preview = "";
 
   if (note.content.length > 100) preview = note.content.slice(0, 100) + "...";
@@ -49,4 +51,6 @@ export default function NoteCard({ note, category, onNoteClick, onEdit, onDelete
       </div>
     </div>
   );
-}
+});
+
+export default NoteCard;

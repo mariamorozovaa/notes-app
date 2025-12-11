@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-export default function SearchBar({ onSearch }) {
+import { memo } from "react";
+
+const SearchBar = memo(function SearchBar({ onSearch }) {
   const [value, setValue] = useState("");
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -16,4 +18,6 @@ export default function SearchBar({ onSearch }) {
       {value && <button onClick={() => setValue("")}>x</button>}
     </div>
   );
-}
+});
+
+export default SearchBar;

@@ -1,4 +1,6 @@
-export default function CategoryFilter({ categories, notes, selectedCategory, onSelectCategory }) {
+import { memo } from "react";
+
+const CategoryFilter = memo(function CategoryFilter({ categories, notes, selectedCategory, onSelectCategory }) {
   function getCategoryCount(categoryId) {
     return notes.filter((note) => note.categoryId === categoryId).length;
   }
@@ -22,4 +24,6 @@ export default function CategoryFilter({ categories, notes, selectedCategory, on
       ))}
     </>
   );
-}
+});
+
+export default CategoryFilter;

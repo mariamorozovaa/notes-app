@@ -1,4 +1,6 @@
-export default function Statistics({ notes, categories }) {
+import { memo } from "react";
+
+const Statistics = memo(function Statistics({ notes, categories }) {
   const totalNotes = notes.length;
   const pinnedNotes = notes.filter((n) => n.isPinned).length;
   const today = new Date().toDateString();
@@ -29,4 +31,6 @@ export default function Statistics({ notes, categories }) {
       </div>
     </>
   );
-}
+});
+
+export default Statistics;
