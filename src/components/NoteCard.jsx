@@ -1,4 +1,5 @@
 import { memo } from "react";
+import "../styles/NoteCard.css";
 
 const NoteCard = memo(function NoteCard({ note, category, onNoteClick, onEdit, onDelete, onTogglePin }) {
   let preview = "";

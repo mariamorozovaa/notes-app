@@ -1,4 +1,5 @@
 import { memo } from "react";
+import "../styles/Statistics.css";
 
 const Statistics = memo(function Statistics({ notes, categories }) {
   const totalNotes = notes.length;

@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import "../styles/NoteForm.css";
 
 export default function NoteForm({ categories, editingNote, onAddNote, onUpdateNote, onClose }) {
   const [formData, setFormData] = useState({
@@ -66,7 +67,8 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         {editingNote ? <h1>Редактировать заметку</h1> : <h1>Новая заметка</h1>}
         <button onClick={onClose}>x</button>
-        <form onSubmit={handleSubmit}>
+
+        <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
           {error ? <p>{error}</p> : ""}
           <label htmlFor="title">Заголовок:</label>
           <input
