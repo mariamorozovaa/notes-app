@@ -141,7 +141,9 @@ function App() {
     <div className="app">
       <header>
         <h1>Notes App</h1>
-        <button onClick={() => setIsFormOpen(true)}>+ Новая заметка</button>
+        <button className="btn-add" onClick={() => setIsFormOpen(true)}>
+          + Новая заметка
+        </button>
       </header>
       <SearchBar onSearch={setSearchQuery} />
 

@@ -15,7 +15,7 @@ header {
   margin-bottom: 30px;
 }
 
-header > button {
+.btn-add {
   padding: 15px;
   border: none;
   border-radius: 8px;
@@ -42,6 +42,7 @@ header > button {
   cursor: pointer;
   transition: background 0.2s;
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  font-size: 14px;
 }
 
 .btn-primary {

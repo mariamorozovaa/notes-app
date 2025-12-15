@@ -1,4 +1,6 @@
 import { useState } from "react";
+import "../styles/CategoryManager.css";
+
 export default function CategoryManager({ categories, notes, onAddCategory, onUpdateCategory, onDeleteCategory }) {
   const PRESET_COLORS = ["#FF1744", "#FF9100", "#FFC400", "#00E676", "#00B0FF", "#2979FF", "#aa00f9ff", "#ff40dcff", "#9E9E9E"];
 
@@ -49,36 +51,84 @@ export default function CategoryManager({ categories, notes, onAddCategory, onUp
 
   return (
     <div>
-      <h1>Категории</h1>
-      <button onClick={() => setIsAdding(true)}>Добавить</button>
+      <div className="title-categories">
+        <h1>Управление категориями</h1>
+        <button onClick={() => setIsAdding(true)} className="btn-add">
+          + Добавить категорию
+        </button>
+      </div>
+
       {isAdding && (
-        <form onSubmit={handleSubmit}>
-          <input type="text" value={formData.name} onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))} />
-          {PRESET_COLORS.map((color) => (
-            <button
-              type="button"
-              key={color}
-              style={{
-                backgroundColor: color,
-                width: "32px",
-                height: "32px",
-                border: formData.color === color ? "3px solid black" : "1px solid #ccc",
-                borderRadius: "6px",
-                cursor: "pointer",
-              }}
-              onClick={() => setFormData((prev) => ({ ...prev, color }))}></button>
-          ))}
-          <button onClick={() => setIsAdding(false)}>Отменить</button>
-          <button type="submit">Создать</button>
+        <form onSubmit={handleSubmit} className="form-category" style={{ marginBottom: "20px" }}>
+          <label htmlFor="title">Название категории</label>
+          <input
+            type="text"
+            name="title"
+            placeholder="Введите название категории"
+            value={formData.name}
+            onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+            style={{
+              fontSize: "18px",
+              padding: "10px",
+              borderRadius: "12px",
+              border: "none",
+              backgroundColor: "rgba(221, 221, 225, 0.546)",
+              marginBottom: "10px",
+            }}
+          />
+          <label htmlFor="color">Цвет</label>
+          <div className="colors">
+            {PRESET_COLORS.map((color) => (
+              <button
+                type="button"
+                id="color"
+                name="color"
+                key={color}
+                style={{
+                  backgroundColor: color,
+                  width: "50px",
+                  height: "50px",
+                  border: formData.color === color ? "3px solid black" : "1px solid #ccc",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                  marginRight: "10px",
+                }}
+                onClick={() => setFormData((prev) => ({ ...prev, color }))}></button>
+            ))}
+          </div>
+
+          <button
+            type="submit"
+            className="btn-primary"
+            style={{
+              marginBottom: "10px",
+            }}>
+            Создать
+          </button>
+          <button onClick={() => setIsAdding(false)} className="btn-secondary">
+            Отменить
+          </button>
         </form>
       )}
       {categories.map((category) => (
-        <div key={category.id}>
-          <p>{category.name}</p>
-          <button style={{ backgroundColor: `${category.color}` }}></button>
-          <p>{notes.filter((note) => note.categoryId === category.id).length}</p>
-          <button onClick={() => handleEdit(category)}>Редактировать</button>
-          <button onClick={() => handleDelete(category.id)}>Удалить</button>
+        <div key={category.id} className="category-card">
+          <div style={{ display: "flex" }}>
+            <div
+              className="count"
+              style={{ backgroundColor: `${category.color}`, width: "20px", height: "20px", marginRight: "10px" }}></div>
+            <p className="bold-text" style={{ fontSize: "20px" }}>
+              {category.name}
+            </p>
+          </div>
+
+          <div>
+            <button className="btn-default" style={{ marginRight: "10px" }} onClick={() => handleEdit(category)}>
+              ✏️
+            </button>
+            <button className="btn-default" onClick={() => handleDelete(category.id)}>
+              🗑️
+            </button>
+          </div>
         </div>
       ))}
     </div>

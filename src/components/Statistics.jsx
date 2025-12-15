@@ -14,7 +14,7 @@ const Statistics = memo(function Statistics({ notes, categories }) {
 
   return (
     <>
-      <div className="stats-grid" style={{ marginBottom: "30px" }}>
+      <div className="stats-grid" style={{ marginBottom: "20px" }}>
         <h1 style={{ marginBottom: "10px" }}>Статистика</h1>
         <div className="stats-item">
           <p className="icon">📝</p>
@@ -39,7 +39,7 @@ const Statistics = memo(function Statistics({ notes, categories }) {
         </div>
       </div>
 
-      <div className="stats-grid-category">
+      <div className="stats-grid-category" style={{ marginBottom: "30px" }}>
         <h2 style={{ marginBottom: "10px" }}>По категориям</h2>
         {categoryStats.map((category) => (
           <div key={category.id} className="notes-count-categories" style={{ border: `2px solid ${category.color}` }}>
