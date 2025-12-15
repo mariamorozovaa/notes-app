@@ -41,7 +41,7 @@ const DEFAULT_CATEGORIES = [
 
 function App() {
   const [notes, setNotes] = useState([]);
-  const [categories, setCategories] = useState(DEFAULT_CATEGORIES);
+  const [categories, setCategories] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingNote, setEditingNote] = useState(null);
   const [selectedNote, setSelectedNote] = useState(null);
@@ -99,17 +99,17 @@ function App() {
   useEffect(() => {
     function loadNotesAndCategories() {
       const loadedNotes = loadNotes();
-      if (loadedNotes) setNotes(loadedNotes);
+      if (loadedNotes.length > 0) setNotes(loadedNotes);
 
       const loadedCategories = loadCategories();
-      if (loadedCategories) setCategories(loadedCategories);
+      if (loadedCategories.length > 0) setCategories(loadedCategories);
       else setCategories(DEFAULT_CATEGORIES);
     }
     loadNotesAndCategories();
   }, []);
 
   useEffect(() => {
-    if (notes.length > 0) saveNotes(notes);
+    saveNotes(notes);
   }, [notes]);
 
   useEffect(() => {

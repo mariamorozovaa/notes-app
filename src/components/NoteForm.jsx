@@ -73,7 +73,7 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
         </div>
 
         <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
-          {error ? <p>{error}</p> : ""}
+          {error ? <p style={{ color: "red" }}>{error}</p> : ""}
           <label htmlFor="title">Заголовок:</label>
           <input
             type="text"

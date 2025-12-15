@@ -5,6 +5,9 @@
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .note-card:hover {
@@ -15,9 +18,10 @@
 .category-badge {
   padding: 4px 12px;
   border-radius: 12px;
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   font-weight: 500;
+  align-self: flex-start;
 }
 
 .pinNote {
@@ -41,6 +45,11 @@
 
 .note-preview {
   margin: 10px 0;
+  overflow-wrap: break-word;
+}
+
+.note-footer {
+  margin-top: auto;
 }
 
 .btn-default {
@@ -52,7 +61,6 @@
 }
 
 .btn-default:hover {
-  /* background-color: rgba(128, 128, 128, 0.26); */
   transform: translateY(-2px);
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   cursor: pointer;

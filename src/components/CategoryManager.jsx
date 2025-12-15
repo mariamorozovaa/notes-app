@@ -20,11 +20,13 @@ export default function CategoryManager({ categories, notes, onAddCategory, onUp
     if (editingId) {
       onUpdateCategory(editingId, formData);
       setEditingId(null);
+      setFormData({ name: "", color: "" });
+      setIsAdding(false);
     } else {
       const newCategory = {
         id: crypto.randomUUID(),
         name: formData.name,
-        color: formData.color,
+        color: formData.color || PRESET_COLORS[0],
       };
       onAddCategory(newCategory);
       setIsAdding(false);
@@ -63,7 +65,8 @@ export default function CategoryManager({ categories, notes, onAddCategory, onUp
           <label htmlFor="title">Название категории</label>
           <input
             type="text"
-            name="title"
+            name="name"
+            id="name"
             placeholder="Введите название категории"
             value={formData.name}
             onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
@@ -81,7 +84,6 @@ export default function CategoryManager({ categories, notes, onAddCategory, onUp
             {PRESET_COLORS.map((color) => (
               <button
                 type="button"
-                id="color"
                 name="color"
                 key={color}
                 style={{
@@ -105,7 +107,7 @@ export default function CategoryManager({ categories, notes, onAddCategory, onUp
             }}>
             Создать
           </button>
-          <button onClick={() => setIsAdding(false)} className="btn-secondary">
+          <button type="button" onClick={() => setIsAdding(false)} className="btn-secondary">
             Отменить
           </button>
         </form>
