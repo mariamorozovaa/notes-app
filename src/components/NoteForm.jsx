@@ -65,8 +65,12 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        {editingNote ? <h1>Редактировать заметку</h1> : <h1>Новая заметка</h1>}
-        <button onClick={onClose}>x</button>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {editingNote ? <h1>Редактировать заметку</h1> : <h1>Новая заметка</h1>}
+          <button onClick={onClose} className="btn-default">
+            x
+          </button>
+        </div>
 
         <form style={{ display: "flex", flexDirection: "column" }} onSubmit={handleSubmit}>
           {error ? <p>{error}</p> : ""}
@@ -104,10 +108,14 @@ export default function NoteForm({ categories, editingNote, onAddNote, onUpdateN
             checked={formData.isPinned}
             onChange={(e) => setFormData((prev) => ({ ...prev, isPinned: e.target.checked }))}
           />
-          <button type="button" onClick={onClose}>
-            Отмена
-          </button>
-          <button type="submit">{editingNote ? "Сохранить" : "Создать"}</button>
+          <div>
+            <button type="button" className="btn-secondary" onClick={onClose} style={{ marginRight: "10px" }}>
+              Отмена
+            </button>
+            <button type="submit" className="btn-primary">
+              {editingNote ? "Сохранить" : "Создать"}
+            </button>
+          </div>
         </form>
       </div>
     </div>

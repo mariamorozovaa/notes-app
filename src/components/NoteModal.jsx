@@ -10,17 +10,24 @@ export default function NoteModal({ note, category, onClose, onEdit, onDelete })
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h2>{note.title}</h2>
-        <span className="modal-badge" style={{ backgroundColor: category?.color }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <h2>{note.title}</h2>
+          <button className="btn-default" onClick={onClose}>
+            x
+          </button>
+        </div>
+
+        <span className="category-badge" style={{ backgroundColor: category?.color }}>
           {category?.name}
         </span>
-        <button onClick={onClose}>x</button>
 
-        <p>{note.content}</p>
+        <p className="note-preview">{note.content}</p>
 
         <footer>
-          <p>{formattedDate}</p>
+          <p className="note-date">{formattedDate}</p>
           <button
+            className="btn-default"
+            style={{ marginRight: "10px" }}
             onClick={() => {
               onEdit(note);
               onClose();
@@ -28,6 +35,7 @@ export default function NoteModal({ note, category, onClose, onEdit, onDelete })
             Редактировать
           </button>
           <button
+            className="btn-default"
             onClick={() => {
               onDelete(note.id);
               onClose();
