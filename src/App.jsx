@@ -159,6 +159,12 @@ function App() {
       ) : (
         ""
       )}
+      <CategoryFilter
+        categories={categories}
+        notes={notes}
+        selectedCategory={selectedCategory}
+        onSelectCategory={setSelectedCategory}
+      />
 
       {notes.length === 0 ? (
         <EmptyState icon="📝" message="Нет заметок. Создайте первую!" />
@@ -188,13 +194,6 @@ function App() {
         onAddCategory={handleAddCategory}
         onUpdateCategory={handleUpdateCategory}
         onDeleteCategory={handleDeleteCategory}
-      />
-
-      <CategoryFilter
-        categories={categories}
-        notes={notes}
-        selectedCategory={selectedCategory}
-        onSelectCategory={setSelectedCategory}
       />
 
       {selectedNote && (

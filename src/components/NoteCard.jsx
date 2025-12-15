@@ -14,11 +14,9 @@ const NoteCard = memo(function NoteCard({ note, category, onNoteClick, onEdit, o
   return (
     <div className="note-card" onClick={() => onNoteClick(note)}>
       <div className="note-header">
-        <h3>{note.title}</h3>
-        <span className="category-badge" style={{ backgroundColor: category?.color }}>
-          {category?.name}
-        </span>
-        {note.isPinned && <span>📌</span>}
+        <h3>
+          {note.title} {note.isPinned && <span>📌</span>}
+        </h3>
         <button
           className="pinNote"
           onClick={(e) => {
@@ -28,12 +26,18 @@ const NoteCard = memo(function NoteCard({ note, category, onNoteClick, onEdit, o
           {note.isPinned ? "Открепить" : "Закрепить"}
         </button>
       </div>
+
+      <span className="category-badge" style={{ backgroundColor: category?.color }}>
+        {category?.name}
+      </span>
       <p className="note-preview">{preview}</p>
       <div className="note-footer">
         <span className="note-date">{formatDate()}</span>
         <div className="note-actions">
           <button
             type="button"
+            className="btn-default"
+            style={{ marginRight: "10px" }}
             onClick={(e) => {
               e.stopPropagation();
               onEdit(note);
@@ -42,6 +46,7 @@ const NoteCard = memo(function NoteCard({ note, category, onNoteClick, onEdit, o
           </button>
           <button
             type="button"
+            className="btn-default"
             onClick={(e) => {
               e.stopPropagation();
               onDelete(note.id);

@@ -1,4 +1,5 @@
 import { memo } from "react";
+import "../styles/CategoryFilter.css";
 
 const CategoryFilter = memo(function CategoryFilter({ categories, notes, selectedCategory, onSelectCategory }) {
   function getCategoryCount(categoryId) {
@@ -6,23 +7,26 @@ const CategoryFilter = memo(function CategoryFilter({ categories, notes, selecte
   }
 
   return (
-    <>
-      <h1>Категории</h1>
-      <button onClick={() => onSelectCategory("all")} className={`category-btn ${selectedCategory === "all" ? "active" : ""}`}>
-        Все ({notes.length})
-      </button>
+    <div className="container" style={{ marginBottom: "30px" }}>
+      <h1 style={{ marginBottom: "20px" }}>Категории</h1>
 
-      {categories.map((category) => (
-        <div key={category.id}>
-          <button
-            onClick={() => onSelectCategory(category.id)}
-            className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
-            style={{ borderLeft: `6px solid ${category.color}` }}>
-            {category.name} ({getCategoryCount(category.id)})
-          </button>
-        </div>
-      ))}
-    </>
+      <div className="categories">
+        <button onClick={() => onSelectCategory("all")} className={`category-btn ${selectedCategory === "all" ? "active" : ""}`}>
+          Все ({notes.length})
+        </button>
+
+        {categories.map((category) => (
+          <div key={category.id}>
+            <button
+              onClick={() => onSelectCategory(category.id)}
+              className={`category-btn ${selectedCategory === category.id ? "active" : ""}`}
+              style={{ borderLeft: `15px solid ${category.color}` }}>
+              {category.name} ({getCategoryCount(category.id)})
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 });
 
