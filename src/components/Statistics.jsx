@@ -14,19 +14,41 @@ const Statistics = memo(function Statistics({ notes, categories }) {
 
   return (
     <>
-      <h1>Статистика</h1>
-      <div className="stats-grid">
-        <p>Всего заметок: {totalNotes}</p>
-        <p>Закреплено: {pinnedNotes}</p>
-        <p>Сегодня: {todayNotes}</p>
+      <div className="stats-grid" style={{ marginBottom: "30px" }}>
+        <h1 style={{ marginBottom: "10px" }}>Статистика</h1>
+        <div className="stats-item">
+          <p className="icon">📝</p>
+          <div className="stats-item-text">
+            <p className="bold-text">{totalNotes}</p>
+            <p>ВСЕГО ЗАМЕТОК</p>
+          </div>
+        </div>
+        <div className="stats-item">
+          <p className="icon">📌</p>
+          <div className="stats-item-text">
+            <p className="bold-text">{pinnedNotes}</p>
+            <p>ЗАКРЕПЛЕНО</p>
+          </div>
+        </div>
+        <div className="stats-item">
+          <p className="icon">📁</p>
+          <div className="stats-item-text">
+            <p className="bold-text">{todayNotes}</p>
+            <p>СЕГОДНЯ</p>
+          </div>
+        </div>
       </div>
 
       <div className="stats-grid-category">
+        <h2 style={{ marginBottom: "10px" }}>По категориям</h2>
         {categoryStats.map((category) => (
-          <div key={category.id}>
-            <div style={{ backgroundColor: `${category.color}` }}></div>
+          <div key={category.id} className="notes-count-categories" style={{ border: `2px solid ${category.color}` }}>
             <p>{category.name}</p>
-            <p>{category.count}</p>
+            <div
+              className="count"
+              style={{ backgroundColor: `${category.color}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <p className="count-text">{category.count}</p>
+            </div>
           </div>
         ))}
       </div>
